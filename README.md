@@ -10,11 +10,12 @@ Add the package to your pubspec.yaml:
  extended_scroll: ^3.0.0
  ```
 
+example to see https://github.com/GuoguoDad/jd_mall_flutter/blob/main/lib/view/page/detail/detail_page.dart
+
 In your dart file, import the library:
 
  ```Dart
-import 'package:extended_scroll/extended_scroll_view.dart';
-import 'package:extended_scroll/extended_scroll_controller.dart';
+import 'package:extended_scroll/extended_scroll.dart';
  ``` 
 
 
