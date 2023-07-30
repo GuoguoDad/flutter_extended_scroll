@@ -207,7 +207,7 @@ class ExtendedScrollController extends ChangeNotifier {
   /// subclass that keeps the same page visible when the scrollable widget
   /// resizes.
   ///
-  /// By default, returns a [ScrollPositionWithSingleContext].
+  /// By default, returns a [ExtendedScrollPositionWithSingleContext].
   ///
   /// The arguments are generally passed to the [ScrollPosition] being created:
   ///
@@ -230,7 +230,7 @@ class ExtendedScrollController extends ChangeNotifier {
     ScrollContext context,
     ScrollPosition? oldPosition,
   ) {
-    return ScrollPositionWithSingleContext(
+    return ExtendedScrollPositionWithSingleContext(
       physics: physics,
       context: context,
       initialPixels: initialScrollOffset,
@@ -282,14 +282,14 @@ class ExtendedScrollController extends ChangeNotifier {
 /// updated [ScrollPosition].
 ///
 /// This class can be used to synchronize the scroll offset of two or more
-/// lazily created scroll views that share a single [TrackingScrollController].
+/// lazily created scroll views that share a single [ExtendedTrackingScrollController].
 /// It tracks the most recently updated scroll position and reports it as its
 /// `initialScrollOffset`.
 ///
 /// {@tool snippet}
 ///
 /// In this example each [PageView] page contains a [ListView] and all three
-/// [ListView]'s share a [TrackingScrollController]. The scroll offsets of all
+/// [ListView]'s share a [ExtendedTrackingScrollController]. The scroll offsets of all
 /// three list views will track each other, to the extent that's possible given
 /// the different list lengths.
 ///
@@ -315,10 +315,10 @@ class ExtendedScrollController extends ChangeNotifier {
 ///
 /// In this example the `_trackingController` would have been created by the
 /// stateful widget that built the widget tree.
-class TrackingScrollController extends ExtendedScrollController {
+class ExtendedTrackingScrollController extends ExtendedScrollController {
   /// Creates a scroll controller that continually updates its
   /// [initialScrollOffset] to match the last scroll notification it received.
-  TrackingScrollController({
+  ExtendedTrackingScrollController({
     super.initialScrollOffset,
     super.keepScrollOffset,
     super.debugLabel,

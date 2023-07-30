@@ -30,10 +30,10 @@ export 'package:flutter/physics.dart' show Tolerance;
 /// Decorations like [GlowingOverscrollIndicator]s and [Scrollbar]s require
 /// information about the Scrollable in order to be initialized.
 @immutable
-class ScrollableDetails {
-  /// Creates a set of details describing the [Scrollable]. The [direction]
+class ExtendedScrollableDetails {
+  /// Creates a set of details describing the [ExtendedScrollable]. The [direction]
   /// cannot be null.
-  const ScrollableDetails({
+  const ExtendedScrollableDetails({
     required this.direction,
     this.controller,
     this.physics,
@@ -45,16 +45,16 @@ class ScrollableDetails {
     Clip? decorationClipBehavior,
   }) : decorationClipBehavior = clipBehavior ?? decorationClipBehavior;
 
-  /// A constructor specific to a [Scrollable] with an [Axis.vertical].
-  const ScrollableDetails.vertical({
+  /// A constructor specific to a [ExtendedScrollable] with an [Axis.vertical].
+  const ExtendedScrollableDetails.vertical({
     bool reverse = false,
     this.controller,
     this.physics,
     this.decorationClipBehavior,
   }) : direction = reverse ? AxisDirection.up : AxisDirection.down;
 
-  /// A constructor specific to a [Scrollable] with an [Axis.horizontal].
-  const ScrollableDetails.horizontal({
+  /// A constructor specific to a [ExtendedScrollable] with an [Axis.horizontal].
+  const ExtendedScrollableDetails.horizontal({
     bool reverse = false,
     this.controller,
     this.physics,
@@ -76,7 +76,7 @@ class ScrollableDetails {
   /// [StretchingOverscrollIndicator].
   ///
   /// This [Clip] does not affect the [Viewport.clipBehavior], but is rather
-  /// passed from the same value by [Scrollable] so that decorators like
+  /// passed from the same value by [ExtendedScrollable] so that decorators like
   /// [StretchingOverscrollIndicator] honor the same clip.
   ///
   /// Defaults to null.
@@ -89,15 +89,15 @@ class ScrollableDetails {
       'This feature was deprecated after v3.9.0-1.0.pre.')
   Clip? get clipBehavior => decorationClipBehavior;
 
-  /// Copy the current [ScrollableDetails] with the given values replacing the
+  /// Copy the current [ExtendedScrollableDetails] with the given values replacing the
   /// current values.
-  ScrollableDetails copyWith({
+  ExtendedScrollableDetails copyWith({
     AxisDirection? direction,
     ExtendedScrollController? controller,
     ScrollPhysics? physics,
     Clip? decorationClipBehavior,
   }) {
-    return ScrollableDetails(
+    return ExtendedScrollableDetails(
       direction: direction ?? this.direction,
       controller: controller ?? this.controller,
       physics: physics ?? this.physics,
@@ -138,7 +138,7 @@ class ScrollableDetails {
     if (other.runtimeType != runtimeType) {
       return false;
     }
-    return other is ScrollableDetails &&
+    return other is ExtendedScrollableDetails &&
         other.direction == direction &&
         other.controller == controller &&
         other.physics == physics &&
@@ -163,8 +163,8 @@ class EdgeDraggingAutoScroller {
   // An eyeballed value for a smooth scrolling experience.
   static const double _kDefaultAutoScrollVelocityScalar = 7;
 
-  /// The [Scrollable] this auto scroller is scrolling.
-  final ScrollableState scrollable;
+  /// The [ExtendedScrollable] this auto scroller is scrolling.
+  final ExtendedScrollableState scrollable;
 
   /// Called when a scroll view is scrolled.
   ///
@@ -296,15 +296,15 @@ class EdgeDraggingAutoScroller {
 /// A typedef for a function that can calculate the offset for a type of scroll
 /// increment given a [ScrollIncrementDetails].
 ///
-/// This function is used as the type for [Scrollable.incrementCalculator],
+/// This function is used as the type for [ExtendedScrollable.incrementCalculator],
 /// which is called from a [ScrollAction].
 typedef ScrollIncrementCalculator = double Function(ScrollIncrementDetails details);
 
 /// Describes the type of scroll increment that will be performed by a
-/// [ScrollAction] on a [Scrollable].
+/// [ScrollAction] on a [ExtendedScrollable].
 ///
 /// This is used to configure a [ScrollIncrementDetails] object to pass to a
-/// [ScrollIncrementCalculator] function on a [Scrollable].
+/// [ScrollIncrementCalculator] function on a [ExtendedScrollable].
 ///
 /// {@template flutter.widgets.ScrollIncrementType.intent}
 /// This indicates the *intent* of the scroll, not necessarily the size. Not all
@@ -360,7 +360,7 @@ class ScrollIncrementDetails {
 /// appropriate for the [type] specified.
 ///
 /// The actual amount of the scroll is determined by the
-/// [Scrollable.incrementCalculator], or by its defaults if that is not
+/// [ExtendedScrollable.incrementCalculator], or by its defaults if that is not
 /// specified.
 class ScrollIntent extends Intent {
   /// Creates a const [ScrollIntent] that requests scrolling in the given
@@ -378,14 +378,14 @@ class ScrollIntent extends Intent {
   final ScrollIncrementType type;
 }
 
-/// An [Action] that scrolls the [Scrollable] that encloses the current
+/// An [Action] that scrolls the [ExtendedScrollable] that encloses the current
 /// [primaryFocus] by the amount configured in the [ScrollIntent] given to it.
 ///
 /// If a Scrollable cannot be found above the current [primaryFocus], the
-/// [PrimaryScrollController] will be considered for default handling of
+/// [ExtendedPrimaryScrollController] will be considered for default handling of
 /// [ScrollAction]s.
 ///
-/// If [Scrollable.incrementCalculator] is null for the scrollable, the default
+/// If [ExtendedScrollable.incrementCalculator] is null for the scrollable, the default
 /// for a [ScrollIntent.type] set to [ScrollIncrementType.page] is 80% of the
 /// size of the scroll window, and for [ScrollIncrementType.line], 50 logical
 /// pixels.
@@ -396,11 +396,11 @@ class ScrollAction extends Action<ScrollIntent> {
     final bool contextIsValid = focus != null && focus.context != null;
     if (contextIsValid) {
       // Check for primary scrollable within the current context
-      if (Scrollable.maybeOf(focus.context!) != null) {
+      if (ExtendedScrollable.maybeOf(focus.context!) != null) {
         return true;
       }
       // Check for fallback scrollable with context from PrimaryScrollController
-      final ExtendedScrollController? primaryScrollController = PrimaryScrollController.maybeOf(focus.context!);
+      final ExtendedScrollController? primaryScrollController = ExtendedPrimaryScrollController.maybeOf(focus.context!);
       return primaryScrollController != null && primaryScrollController.hasClients;
     }
     return false;
@@ -413,7 +413,7 @@ class ScrollAction extends Action<ScrollIntent> {
   /// metrics (pixels, viewportDimension, maxScrollExtent, minScrollExtent) are
   /// null. The type and state arguments must not be null, and the widget must
   /// have already been laid out so that the position fields are valid.
-  static double _calculateScrollIncrement(ScrollableState state, {ScrollIncrementType type = ScrollIncrementType.line}) {
+  static double _calculateScrollIncrement(ExtendedScrollableState state, {ScrollIncrementType type = ScrollIncrementType.line}) {
     assert(state.position.hasPixels);
     assert(state.resolvedPhysics == null || state.resolvedPhysics!.shouldAcceptUserOffset(state.position));
     if (state.widget.incrementCalculator != null) {
@@ -434,7 +434,7 @@ class ScrollAction extends Action<ScrollIntent> {
 
   /// Find out how much of an increment to move by, taking the different
   /// directions into account.
-  static double getDirectionalIncrement(ScrollableState state, ScrollIntent intent) {
+  static double getDirectionalIncrement(ExtendedScrollableState state, ScrollIntent intent) {
     final double increment = _calculateScrollIncrement(state, type: intent.type);
     switch (intent.direction) {
       case AxisDirection.down:
@@ -482,9 +482,9 @@ class ScrollAction extends Action<ScrollIntent> {
 
   @override
   void invoke(ScrollIntent intent) {
-    ScrollableState? state = Scrollable.maybeOf(primaryFocus!.context!);
+    ExtendedScrollableState? state = ExtendedScrollable.maybeOf(primaryFocus!.context!);
     if (state == null) {
-      final ExtendedScrollController primaryScrollController = PrimaryScrollController.of(primaryFocus!.context!);
+      final ExtendedScrollController primaryScrollController = ExtendedPrimaryScrollController.of(primaryFocus!.context!);
       assert(() {
         if (primaryScrollController.positions.length != 1) {
           throw FlutterError.fromParts(<DiagnosticsNode>[
@@ -509,10 +509,10 @@ class ScrollAction extends Action<ScrollIntent> {
       }());
 
       if (primaryScrollController.position.context.notificationContext == null &&
-          Scrollable.maybeOf(primaryScrollController.position.context.notificationContext!) == null) {
+          ExtendedScrollable.maybeOf(primaryScrollController.position.context.notificationContext!) == null) {
         return;
       }
-      state = Scrollable.maybeOf(primaryScrollController.position.context.notificationContext!);
+      state = ExtendedScrollable.maybeOf(primaryScrollController.position.context.notificationContext!);
     }
     assert(state != null, '$ScrollAction was invoked on a context that has no scrollable parent');
     assert(state!.position.hasPixels, 'Scrollable must be laid out before it can be scrolled via a ScrollAction');

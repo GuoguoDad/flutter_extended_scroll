@@ -1,6 +1,6 @@
 ## extended_scroll package for flutter.
 
-     scrollController.position.ensureVisible support offsetTop in CustomScrollView
+     make method ensureVisible support offsetTop
 
 ## Getting Started
 
@@ -9,8 +9,8 @@ Add the package to your pubspec.yaml:
  ```yaml
  extended_scroll: ^3.0.0
  ```
-
-example to see https://github.com/GuoguoDad/jd_mall_flutter/blob/main/lib/view/page/detail/detail_page.dart
+## example
+详细见example
 
 In your dart file, import the library:
 

@@ -26,7 +26,7 @@ export 'package:flutter/src/widgets/scroll_activity.dart' show ScrollHoldControl
 
 /// The policy to use when applying the `alignment` parameter of
 /// [ScrollPosition.ensureVisible].
-enum ScrollPositionAlignmentPolicy {
+enum ExtendedScrollPositionAlignmentPolicy {
   /// Use the `alignment` property of [ScrollPosition.ensureVisible] to decide
   /// where to align the visible object.
   explicit,
@@ -687,14 +687,14 @@ abstract class ScrollPosition extends ViewportOffset with ScrollMetrics {
   ///
   /// See also:
   ///
-  ///  * [ScrollPositionAlignmentPolicy] for the way in which `alignment` is
+  ///  * [ExtendedScrollPositionAlignmentPolicy] for the way in which `alignment` is
   ///    applied, and the way the given `object` is aligned.
   Future<void> ensureVisible(
     RenderObject object, {
     double alignment = 0.0,
     Duration duration = Duration.zero,
     Curve curve = Curves.ease,
-    ScrollPositionAlignmentPolicy alignmentPolicy = ScrollPositionAlignmentPolicy.explicit,
+    ExtendedScrollPositionAlignmentPolicy alignmentPolicy = ExtendedScrollPositionAlignmentPolicy.explicit,
     RenderObject? targetRenderObject,
     double? offsetTop,
   }) {
@@ -711,16 +711,16 @@ abstract class ScrollPosition extends ViewportOffset with ScrollMetrics {
 
     double target;
     switch (alignmentPolicy) {
-      case ScrollPositionAlignmentPolicy.explicit:
+      case ExtendedScrollPositionAlignmentPolicy.explicit:
         target = clampDouble(viewport.getOffsetToReveal(object, alignment, rect: targetRect).offset, minScrollExtent, maxScrollExtent);
         break;
-      case ScrollPositionAlignmentPolicy.keepVisibleAtEnd:
+      case ExtendedScrollPositionAlignmentPolicy.keepVisibleAtEnd:
         target = clampDouble(viewport.getOffsetToReveal(object, 1.0, rect: targetRect).offset, minScrollExtent, maxScrollExtent);
         if (target < pixels) {
           target = pixels;
         }
         break;
-      case ScrollPositionAlignmentPolicy.keepVisibleAtStart:
+      case ExtendedScrollPositionAlignmentPolicy.keepVisibleAtStart:
         target = clampDouble(viewport.getOffsetToReveal(object, 0.0, rect: targetRect).offset, minScrollExtent, maxScrollExtent);
         if (target > pixels) {
           target = pixels;
@@ -938,7 +938,7 @@ abstract class ScrollPosition extends ViewportOffset with ScrollMetrics {
     assert(_haveScheduledUpdateNotification);
     _haveScheduledUpdateNotification = false;
     if (context.notificationContext != null) {
-      ScrollMetricsNotification(metrics: copyWith(), context: context.notificationContext!).dispatch(context.notificationContext);
+      ExtendedScrollMetricsNotification(metrics: copyWith(), context: context.notificationContext!).dispatch(context.notificationContext);
     }
   }
 
@@ -998,16 +998,16 @@ abstract class ScrollPosition extends ViewportOffset with ScrollMetrics {
 /// caused by the user scrolling.
 ///
 /// {@tool dartpad}
-/// This sample shows how a [ScrollMetricsNotification] is dispatched when
+/// This sample shows how a [ExtendedScrollMetricsNotification] is dispatched when
 /// the `windowSize` is changed. Press the floating action button to increase
 /// the scrollable window's size.
 ///
 /// ** See code in examples/api/lib/widgets/scroll_position/scroll_metrics_notification.0.dart **
 /// {@end-tool}
-class ScrollMetricsNotification extends Notification with ViewportNotificationMixin {
+class ExtendedScrollMetricsNotification extends Notification with ViewportNotificationMixin {
   /// Creates a notification that the scrollable widget's [ScrollMetrics] have
   /// changed.
-  ScrollMetricsNotification({
+  ExtendedScrollMetricsNotification({
     required this.metrics,
     required this.context,
   });

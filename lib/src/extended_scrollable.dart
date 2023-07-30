@@ -35,23 +35,23 @@ export 'package:flutter/physics.dart' show Tolerance;
 // Examples can assume:
 // late BuildContext context;
 
-/// Signature used by [Scrollable] to build the viewport through which the
+/// Signature used by [ExtendedScrollable] to build the viewport through which the
 /// scrollable content is displayed.
-typedef ViewportBuilder = Widget Function(BuildContext context, ViewportOffset position);
+typedef ExtendedViewportBuilder = Widget Function(BuildContext context, ViewportOffset position);
 
 /// A widget that scrolls.
 ///
-/// [Scrollable] implements the interaction model for a scrollable widget,
+/// [ExtendedScrollable] implements the interaction model for a scrollable widget,
 /// including gesture recognition, but does not have an opinion about how the
 /// viewport, which actually displays the children, is constructed.
 ///
-/// It's rare to construct a [Scrollable] directly. Instead, consider [ListView]
+/// It's rare to construct a [ExtendedScrollable] directly. Instead, consider [ListView]
 /// or [GridView], which combine scrolling, viewporting, and a layout model. To
 /// combine layout models (or to use a custom layout mode), consider using
 /// [CustomScrollView].
 ///
-/// The static [Scrollable.of] and [Scrollable.ensureVisible] functions are
-/// often used to interact with the [Scrollable] widget inside a [ListView] or
+/// The static [ExtendedScrollable.of] and [ExtendedScrollable.ensureVisible] functions are
+/// often used to interact with the [ExtendedScrollable] widget inside a [ListView] or
 /// a [GridView].
 ///
 /// To further customize scrolling behavior with a [Scrollable]:
@@ -64,7 +64,7 @@ typedef ViewportBuilder = Widget Function(BuildContext context, ViewportOffset p
 /// 2. You can provide a custom [ExtendedScrollController] that creates a custom
 ///    [ScrollPosition] subclass. For example, [PageView] uses a
 ///    [PageController], which creates a page-oriented scroll position subclass
-///    that keeps the same page visible when the [Scrollable] resizes.
+///    that keeps the same page visible when the [ExtendedScrollable] resizes.
 ///
 /// See also:
 ///
@@ -80,11 +80,11 @@ typedef ViewportBuilder = Widget Function(BuildContext context, ViewportOffset p
 ///    child.
 ///  * [ScrollNotification] and [NotificationListener], which can be used to watch
 ///    the scroll position without using a [ExtendedScrollController].
-class Scrollable extends StatefulWidget {
+class ExtendedScrollable extends StatefulWidget {
   /// Creates a widget that scrolls.
   ///
   /// The [axisDirection] and [viewportBuilder] arguments must not be null.
-  const Scrollable({
+  const ExtendedScrollable({
     super.key,
     this.axisDirection = AxisDirection.down,
     this.controller,
@@ -102,7 +102,7 @@ class Scrollable extends StatefulWidget {
   /// {@template flutter.widgets.Scrollable.axisDirection}
   /// The direction in which this widget scrolls.
   ///
-  /// For example, if the [Scrollable.axisDirection] is [AxisDirection.down],
+  /// For example, if the [ExtendedScrollable.axisDirection] is [AxisDirection.down],
   /// increasing the scroll position will cause content below the bottom of the
   /// viewport to become visible through the viewport. Similarly, if the
   /// axisDirection is [AxisDirection.right], increasing the scroll position
@@ -125,12 +125,12 @@ class Scrollable extends StatefulWidget {
   /// scroll position (see [ExtendedScrollController.offset]), or change it (see
   /// [ExtendedScrollController.animateTo]).
   ///
-  /// If null, a [ExtendedScrollController] will be created internally by [Scrollable]
+  /// If null, a [ExtendedScrollController] will be created internally by [ExtendedScrollable]
   /// in order to create and manage the [ScrollPosition].
   ///
   /// See also:
   ///
-  ///  * [Scrollable.ensureVisible], which animates the scroll position to
+  ///  * [ExtendedScrollable.ensureVisible], which animates the scroll position to
   ///    reveal a given [BuildContext].
   /// {@endtemplate}
   final ExtendedScrollController? controller;
@@ -144,9 +144,9 @@ class Scrollable extends StatefulWidget {
   /// Defaults to matching platform conventions via the physics provided from
   /// the ambient [ScrollConfiguration].
   ///
-  /// If an explicit [ScrollBehavior] is provided to
-  /// [Scrollable.scrollBehavior], the [ScrollPhysics] provided by that behavior
-  /// will take precedence after [Scrollable.physics].
+  /// If an explicit [ExtendedScrollBehavior] is provided to
+  /// [ExtendedScrollable.scrollBehavior], the [ScrollPhysics] provided by that behavior
+  /// will take precedence after [ExtendedScrollable.physics].
   ///
   /// The physics can be changed dynamically, but new physics will only take
   /// effect if the _class_ of the provided object changes. Merely constructing
@@ -174,13 +174,13 @@ class Scrollable extends StatefulWidget {
   ///  * [Viewport], which is a viewport that displays a list of slivers.
   ///  * [ShrinkWrappingViewport], which is a viewport that displays a list of
   ///    slivers and sizes itself based on the size of the slivers.
-  final ViewportBuilder viewportBuilder;
+  final ExtendedViewportBuilder viewportBuilder;
 
   /// An optional function that will be called to calculate the distance to
   /// scroll when the scrollable is asked to scroll via the keyboard using a
   /// [ScrollAction].
   ///
-  /// If not supplied, the [Scrollable] will scroll a default amount when a
+  /// If not supplied, the [ExtendedScrollable] will scroll a default amount when a
   /// keyboard navigation key is pressed (e.g. pageUp/pageDown, control-upArrow,
   /// etc.), or otherwise invoked by a [ScrollAction].
   ///
@@ -189,7 +189,7 @@ class Scrollable extends StatefulWidget {
   /// for [ScrollIncrementType.line], 50 logical pixels.
   final ScrollIncrementCalculator? incrementCalculator;
 
-  /// Whether the scroll actions introduced by this [Scrollable] are exposed
+  /// Whether the scroll actions introduced by this [ExtendedScrollable] are exposed
   /// in the semantics tree.
   ///
   /// Text fields with an overflow are usually scrollable to make sure that the
@@ -260,18 +260,18 @@ class Scrollable extends StatefulWidget {
 
   /// {@macro flutter.widgets.shadow.scrollBehavior}
   ///
-  /// [ScrollBehavior]s also provide [ScrollPhysics]. If an explicit
+  /// [ExtendedScrollBehavior]s also provide [ScrollPhysics]. If an explicit
   /// [ScrollPhysics] is provided in [physics], it will take precedence,
   /// followed by [scrollBehavior], and then the inherited ancestor
-  /// [ScrollBehavior].
-  final ScrollBehavior? scrollBehavior;
+  /// [ExtendedScrollBehavior].
+  final ExtendedScrollBehavior? scrollBehavior;
 
   /// {@macro flutter.material.Material.clipBehavior}
   ///
   /// Defaults to [Clip.hardEdge].
   ///
-  /// This is passed to decorators in [ScrollableDetails], and does not directly affect
-  /// clipping of the [Scrollable]. This reflects the same [Clip] that is provided
+  /// This is passed to decorators in [ExtendedScrollableDetails], and does not directly affect
+  /// clipping of the [ExtendedScrollable]. This reflects the same [Clip] that is provided
   /// to [ScrollView.clipBehavior] and is supplied to the [Viewport].
   final Clip clipBehavior;
 
@@ -281,7 +281,7 @@ class Scrollable extends StatefulWidget {
   Axis get axis => axisDirectionToAxis(axisDirection);
 
   @override
-  ScrollableState createState() => ScrollableState();
+  ExtendedScrollableState createState() => ExtendedScrollableState();
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -300,14 +300,14 @@ class Scrollable extends StatefulWidget {
   /// ScrollableState? scrollable = Scrollable.maybeOf(context);
   /// ```
   ///
-  /// Calling this method will create a dependency on the closest [Scrollable]
+  /// Calling this method will create a dependency on the closest [ExtendedScrollable]
   /// in the [context], if there is one.
   ///
   /// See also:
   ///
-  /// * [Scrollable.of], which is similar to this method, but asserts
-  ///   if no [Scrollable] ancestor is found.
-  static ScrollableState? maybeOf(BuildContext context) {
+  /// * [ExtendedScrollable.of], which is similar to this method, but asserts
+  ///   if no [ExtendedScrollable] ancestor is found.
+  static ExtendedScrollableState? maybeOf(BuildContext context) {
     final _ScrollableScope? widget = context.dependOnInheritedWidgetOfExactType<_ScrollableScope>();
     return widget?.scrollable;
   }
@@ -321,18 +321,18 @@ class Scrollable extends StatefulWidget {
   /// ScrollableState scrollable = Scrollable.of(context);
   /// ```
   ///
-  /// Calling this method will create a dependency on the closest [Scrollable]
+  /// Calling this method will create a dependency on the closest [ExtendedScrollable]
   /// in the [context].
   ///
-  /// If no [Scrollable] ancestor is found, then this method will assert in
+  /// If no [ExtendedScrollable] ancestor is found, then this method will assert in
   /// debug mode, and throw an exception in release mode.
   ///
   /// See also:
   ///
-  /// * [Scrollable.maybeOf], which is similar to this method, but returns null
-  ///   if no [Scrollable] ancestor is found.
-  static ScrollableState of(BuildContext context) {
-    final ScrollableState? scrollableState = maybeOf(context);
+  /// * [ExtendedScrollable.maybeOf], which is similar to this method, but returns null
+  ///   if no [ExtendedScrollable] ancestor is found.
+  static ExtendedScrollableState of(BuildContext context) {
+    final ExtendedScrollableState? scrollableState = maybeOf(context);
     assert(() {
       if (scrollableState == null) {
         throw FlutterError(
@@ -358,11 +358,11 @@ class Scrollable extends StatefulWidget {
   /// This also means that the value returned is only good for the point in time
   /// when it is called, and callers will not get updated if the value changes.
   ///
-  /// The heuristic used is determined by the [physics] of this [Scrollable]
+  /// The heuristic used is determined by the [physics] of this [ExtendedScrollable]
   /// via [ScrollPhysics.recommendDeferredLoading]. That method is called with
   /// the current [ScrollPosition.activity]'s [ScrollActivity.velocity].
   ///
-  /// If there is no [Scrollable] in the widget tree above the [context], this
+  /// If there is no [ExtendedScrollable] in the widget tree above the [context], this
   /// method returns false.
   static bool recommendDeferredLoadingForContext(BuildContext context) {
     final _ScrollableScope? widget = context.getInheritedWidgetOfExactType<_ScrollableScope>();
@@ -379,7 +379,7 @@ class Scrollable extends StatefulWidget {
     double alignment = 0.0,
     Duration duration = Duration.zero,
     Curve curve = Curves.ease,
-    ScrollPositionAlignmentPolicy alignmentPolicy = ScrollPositionAlignmentPolicy.explicit,
+    ExtendedScrollPositionAlignmentPolicy alignmentPolicy = ExtendedScrollPositionAlignmentPolicy.explicit,
   }) {
     final List<Future<void>> futures = <Future<void>>[];
 
@@ -390,7 +390,7 @@ class Scrollable extends StatefulWidget {
     // the `targetRenderObject` invisible.
     // Also see https://github.com/flutter/flutter/issues/65100
     RenderObject? targetRenderObject;
-    ScrollableState? scrollable = Scrollable.maybeOf(context);
+    ExtendedScrollableState? scrollable = ExtendedScrollable.maybeOf(context);
     while (scrollable != null) {
       futures.add(scrollable.position.ensureVisible(
         context.findRenderObject()!,
@@ -403,7 +403,7 @@ class Scrollable extends StatefulWidget {
 
       targetRenderObject = targetRenderObject ?? context.findRenderObject();
       context = scrollable.context;
-      scrollable = Scrollable.maybeOf(context);
+      scrollable = ExtendedScrollable.maybeOf(context);
     }
 
     if (futures.isEmpty || duration == Duration.zero) {
@@ -425,7 +425,7 @@ class _ScrollableScope extends InheritedWidget {
     required super.child,
   });
 
-  final ScrollableState scrollable;
+  final ExtendedScrollableState scrollable;
   final ScrollPosition position;
 
   @override
@@ -434,28 +434,28 @@ class _ScrollableScope extends InheritedWidget {
   }
 }
 
-/// State object for a [Scrollable] widget.
+/// State object for a [ExtendedScrollable] widget.
 ///
-/// To manipulate a [Scrollable] widget's scroll position, use the object
+/// To manipulate a [ExtendedScrollable] widget's scroll position, use the object
 /// obtained from the [position] property.
 ///
-/// To be informed of when a [Scrollable] widget is scrolling, use a
+/// To be informed of when a [ExtendedScrollable] widget is scrolling, use a
 /// [NotificationListener] to listen for [ScrollNotification] notifications.
 ///
 /// This class is not intended to be subclassed. To specialize the behavior of a
-/// [Scrollable], provide it with a [ScrollPhysics].
-class ScrollableState extends State<Scrollable> with TickerProviderStateMixin, RestorationMixin implements ScrollContext {
+/// [ExtendedScrollable], provide it with a [ScrollPhysics].
+class ExtendedScrollableState extends State<ExtendedScrollable> with TickerProviderStateMixin, RestorationMixin implements ScrollContext {
   // GETTERS
 
-  /// The manager for this [Scrollable] widget's viewport position.
+  /// The manager for this [ExtendedScrollable] widget's viewport position.
   ///
-  /// To control what kind of [ScrollPosition] is created for a [Scrollable],
+  /// To control what kind of [ScrollPosition] is created for a [ExtendedScrollable],
   /// provide it with custom [ExtendedScrollController] that creates the appropriate
   /// [ScrollPosition] in its [ExtendedScrollController.createScrollPosition] method.
   ScrollPosition get position => _position!;
   ScrollPosition? _position;
 
-  /// The resolved [ScrollPhysics] of the [ScrollableState].
+  /// The resolved [ScrollPhysics] of the [ExtendedScrollableState].
   ScrollPhysics? get resolvedPhysics => _physics;
   ScrollPhysics? _physics;
 
@@ -495,7 +495,7 @@ class ScrollableState extends State<Scrollable> with TickerProviderStateMixin, R
   String? get restorationId => widget.restorationId;
   final _RestorableScrollOffset _persistedScrollOffset = _RestorableScrollOffset();
 
-  late ScrollBehavior _configuration;
+  late ExtendedScrollBehavior _configuration;
   ExtendedScrollController? _fallbackScrollController;
   DeviceGestureSettings? _mediaQueryGestureSettings;
 
@@ -555,7 +555,7 @@ class ScrollableState extends State<Scrollable> with TickerProviderStateMixin, R
     super.didChangeDependencies();
   }
 
-  bool _shouldUpdatePosition(Scrollable oldWidget) {
+  bool _shouldUpdatePosition(ExtendedScrollable oldWidget) {
     ScrollPhysics? newPhysics = widget.physics ?? widget.scrollBehavior?.getScrollPhysics(context);
     ScrollPhysics? oldPhysics = oldWidget.physics ?? oldWidget.scrollBehavior?.getScrollPhysics(context);
     do {
@@ -570,7 +570,7 @@ class ScrollableState extends State<Scrollable> with TickerProviderStateMixin, R
   }
 
   @override
-  void didUpdateWidget(Scrollable oldWidget) {
+  void didUpdateWidget(ExtendedScrollable oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     if (widget.controller != oldWidget.controller) {
@@ -842,7 +842,7 @@ class ScrollableState extends State<Scrollable> with TickerProviderStateMixin, R
     }
   }
 
-  bool _handleScrollMetricsNotification(ScrollMetricsNotification notification) {
+  bool _handleScrollMetricsNotification(ExtendedScrollMetricsNotification notification) {
     if (notification.depth == 0) {
       final RenderObject? scrollSemanticsRenderObject = _scrollSemanticsKey.currentContext?.findRenderObject();
       if (scrollSemanticsRenderObject != null) {
@@ -890,7 +890,7 @@ class ScrollableState extends State<Scrollable> with TickerProviderStateMixin, R
     );
 
     if (!widget.excludeFromSemantics) {
-      result = NotificationListener<ScrollMetricsNotification>(
+      result = NotificationListener<ExtendedScrollMetricsNotification>(
           onNotification: _handleScrollMetricsNotification,
           child: _ScrollSemantics(
             key: _scrollSemanticsKey,
@@ -901,7 +901,7 @@ class ScrollableState extends State<Scrollable> with TickerProviderStateMixin, R
           ));
     }
 
-    final ScrollableDetails details = ScrollableDetails(
+    final ExtendedScrollableDetails details = ExtendedScrollableDetails(
       direction: widget.axisDirection,
       controller: _effectiveScrollController,
       decorationClipBehavior: widget.clipBehavior,
@@ -947,7 +947,7 @@ class _ScrollableSelectionHandler extends StatefulWidget {
     required this.child,
   });
 
-  final ScrollableState state;
+  final ExtendedScrollableState state;
   final ScrollPosition position;
   final Widget child;
   final SelectionRegistrar registrar;
@@ -1012,7 +1012,7 @@ class _ScrollableSelectionContainerDelegate extends MultiSelectableSelectionCont
   // An eye-balled value for a smooth scrolling speed.
   static const double _kDefaultSelectToScrollVelocityScalar = 30;
 
-  final ScrollableState state;
+  final ExtendedScrollableState state;
   final EdgeDraggingAutoScroller _autoScroller;
   bool _scheduledLayoutChange = false;
   Offset? _currentDragStartRelatedToOrigin;
@@ -1376,7 +1376,7 @@ class _ScrollableSelectionContainerDelegate extends MultiSelectableSelectionCont
   }
 }
 
-Offset _getDeltaToScrollOrigin(ScrollableState scrollableState) {
+Offset _getDeltaToScrollOrigin(ExtendedScrollableState scrollableState) {
   switch (scrollableState.axisDirection) {
     case AxisDirection.down:
       return Offset(0, scrollableState.position.pixels);

@@ -42,32 +42,32 @@ enum AndroidOverscrollIndicator {
   glow,
 }
 
-/// Describes how [Scrollable] widgets should behave.
+/// Describes how [ExtendedScrollable] widgets should behave.
 ///
 /// {@template flutter.widgets.scrollBehavior}
-/// Used by [ScrollConfiguration] to configure the [Scrollable] widgets in a
+/// Used by [ScrollConfiguration] to configure the [ExtendedScrollable] widgets in a
 /// subtree.
 ///
-/// This class can be extended to further customize a [ScrollBehavior] for a
-/// subtree. For example, overriding [ScrollBehavior.getScrollPhysics] sets the
-/// default [ScrollPhysics] for [Scrollable]s that inherit this [ScrollConfiguration].
-/// Overriding [ScrollBehavior.buildOverscrollIndicator] can be used to add or change
+/// This class can be extended to further customize a [ExtendedScrollBehavior] for a
+/// subtree. For example, overriding [ExtendedScrollBehavior.getScrollPhysics] sets the
+/// default [ScrollPhysics] for [ExtendedScrollable]s that inherit this [ScrollConfiguration].
+/// Overriding [ExtendedScrollBehavior.buildOverscrollIndicator] can be used to add or change
 /// the default [GlowingOverscrollIndicator] decoration, while
-/// [ScrollBehavior.buildScrollbar] can be changed to modify the default [Scrollbar].
+/// [ExtendedScrollBehavior.buildScrollbar] can be changed to modify the default [Scrollbar].
 ///
 /// When looking to easily toggle the default decorations, you can use
-/// [ScrollBehavior.copyWith] instead of creating your own [ScrollBehavior] class.
+/// [ExtendedScrollBehavior.copyWith] instead of creating your own [ExtendedScrollBehavior] class.
 /// The `scrollbar` and `overscrollIndicator` flags can turn these decorations off.
 /// {@endtemplate}
 ///
 /// See also:
 ///
 ///   * [ScrollConfiguration], the inherited widget that controls how
-///     [Scrollable] widgets behave in a subtree.
+///     [ExtendedScrollable] widgets behave in a subtree.
 @immutable
-class ScrollBehavior {
-  /// Creates a description of how [Scrollable] widgets should behave.
-  const ScrollBehavior({
+class ExtendedScrollBehavior {
+  /// Creates a description of how [ExtendedScrollable] widgets should behave.
+  const ExtendedScrollBehavior({
     @Deprecated('Use ThemeData.useMaterial3 or override ScrollBehavior.buildOverscrollIndicator. '
         'This feature was deprecated after v2.13.0-0.0.pre.')
     AndroidOverscrollIndicator? androidOverscrollIndicator,
@@ -90,11 +90,11 @@ class ScrollBehavior {
   /// easily toggle `scrollbar` and `overscrollIndicator` effects.
   ///
   /// This is used by widgets like [PageView] and [ListWheelScrollView] to
-  /// override the current [ScrollBehavior] and manage how they are decorated.
-  /// Widgets such as these have the option to provide a [ScrollBehavior] on
+  /// override the current [ExtendedScrollBehavior] and manage how they are decorated.
+  /// Widgets such as these have the option to provide a [ExtendedScrollBehavior] on
   /// the widget level, like [PageView.scrollBehavior], in order to change the
   /// default.
-  ScrollBehavior copyWith({
+  ExtendedScrollBehavior copyWith({
     bool? scrollbars,
     bool? overscroll,
     Set<PointerDeviceKind>? dragDevices,
@@ -105,7 +105,7 @@ class ScrollBehavior {
         'This feature was deprecated after v2.13.0-0.0.pre.')
     AndroidOverscrollIndicator? androidOverscrollIndicator,
   }) {
-    return _WrappedScrollBehavior(
+    return _WrappedExtendedScrollBehavior(
         delegate: this,
         scrollbars: scrollbars ?? true,
         overscroll: overscroll ?? true,
@@ -149,7 +149,7 @@ class ScrollBehavior {
       };
 
   /// Applies a [RawScrollbar] to the child widget on desktop platforms.
-  Widget buildScrollbar(BuildContext context, Widget child, ScrollableDetails details) {
+  Widget buildScrollbar(BuildContext context, Widget child, ExtendedScrollableDetails details) {
     // When modifying this function, consider modifying the implementation in
     // the Material and Cupertino subclasses as well.
     switch (getPlatform(context)) {
@@ -170,7 +170,7 @@ class ScrollBehavior {
 
   /// Applies a [GlowingOverscrollIndicator] to the child widget on
   /// [TargetPlatform.android] and [TargetPlatform.fuchsia].
-  Widget buildOverscrollIndicator(BuildContext context, Widget child, ScrollableDetails details) {
+  Widget buildOverscrollIndicator(BuildContext context, Widget child, ExtendedScrollableDetails details) {
     // When modifying this function, consider modifying the implementation in
     // the Material and Cupertino subclasses as well.
     switch (getPlatform(context)) {
@@ -204,7 +204,7 @@ class ScrollBehavior {
   }
 
   /// Specifies the type of velocity tracker to use in the descendant
-  /// [Scrollable]s' drag gesture recognizers, for estimating the velocity of a
+  /// [ExtendedScrollable]s' drag gesture recognizers, for estimating the velocity of a
   /// drag gesture.
   ///
   /// This can be used to, for example, apply different fling velocity
@@ -212,7 +212,7 @@ class ScrollBehavior {
   /// platform's native behavior.
   ///
   /// Typically, the provided [GestureVelocityTrackerBuilder] should return a
-  /// fresh velocity tracker. If null is returned, [Scrollable] creates a new
+  /// fresh velocity tracker. If null is returned, [ExtendedScrollable] creates a new
   /// [VelocityTracker] to track the newly added pointer that may develop into
   /// a drag gesture.
   ///
@@ -260,23 +260,23 @@ class ScrollBehavior {
   }
 
   /// Called whenever a [ScrollConfiguration] is rebuilt with a new
-  /// [ScrollBehavior] of the same [runtimeType].
+  /// [ExtendedScrollBehavior] of the same [runtimeType].
   ///
   /// If the new instance represents different information than the old
   /// instance, then the method should return true, otherwise it should return
   /// false.
   ///
   /// If this method returns true, all the widgets that inherit from the
-  /// [ScrollConfiguration] will rebuild using the new [ScrollBehavior]. If this
+  /// [ScrollConfiguration] will rebuild using the new [ExtendedScrollBehavior]. If this
   /// method returns false, the rebuilds might be optimized away.
-  bool shouldNotify(covariant ScrollBehavior oldDelegate) => false;
+  bool shouldNotify(covariant ExtendedScrollBehavior oldDelegate) => false;
 
   @override
   String toString() => objectRuntimeType(this, 'ScrollBehavior');
 }
 
-class _WrappedScrollBehavior implements ScrollBehavior {
-  const _WrappedScrollBehavior({
+class _WrappedExtendedScrollBehavior implements ExtendedScrollBehavior {
+  const _WrappedExtendedScrollBehavior({
     required this.delegate,
     this.scrollbars = true,
     this.overscroll = true,
@@ -289,7 +289,7 @@ class _WrappedScrollBehavior implements ScrollBehavior {
         _dragDevices = dragDevices,
         _pointerAxisModifiers = pointerAxisModifiers;
 
-  final ScrollBehavior delegate;
+  final ExtendedScrollBehavior delegate;
   final bool scrollbars;
   final bool overscroll;
   final ScrollPhysics? physics;
@@ -309,7 +309,7 @@ class _WrappedScrollBehavior implements ScrollBehavior {
   AndroidOverscrollIndicator get androidOverscrollIndicator => _androidOverscrollIndicator ?? delegate.androidOverscrollIndicator;
 
   @override
-  Widget buildOverscrollIndicator(BuildContext context, Widget child, ScrollableDetails details) {
+  Widget buildOverscrollIndicator(BuildContext context, Widget child, ExtendedScrollableDetails details) {
     if (overscroll) {
       return delegate.buildOverscrollIndicator(context, child, details);
     }
@@ -317,7 +317,7 @@ class _WrappedScrollBehavior implements ScrollBehavior {
   }
 
   @override
-  Widget buildScrollbar(BuildContext context, Widget child, ScrollableDetails details) {
+  Widget buildScrollbar(BuildContext context, Widget child, ExtendedScrollableDetails details) {
     if (scrollbars) {
       return delegate.buildScrollbar(context, child, details);
     }
@@ -325,7 +325,7 @@ class _WrappedScrollBehavior implements ScrollBehavior {
   }
 
   @override
-  ScrollBehavior copyWith(
+  ExtendedScrollBehavior copyWith(
       {bool? scrollbars,
       bool? overscroll,
       Set<PointerDeviceKind>? dragDevices,
@@ -355,7 +355,7 @@ class _WrappedScrollBehavior implements ScrollBehavior {
   }
 
   @override
-  bool shouldNotify(_WrappedScrollBehavior oldDelegate) {
+  bool shouldNotify(_WrappedExtendedScrollBehavior oldDelegate) {
     return oldDelegate.delegate.runtimeType != delegate.runtimeType ||
         oldDelegate.scrollbars != scrollbars ||
         oldDelegate.overscroll != overscroll ||
@@ -375,12 +375,12 @@ class _WrappedScrollBehavior implements ScrollBehavior {
   String toString() => objectRuntimeType(this, '_WrappedScrollBehavior');
 }
 
-/// Controls how [Scrollable] widgets behave in a subtree.
+/// Controls how [ExtendedScrollable] widgets behave in a subtree.
 ///
 /// The scroll configuration determines the [ScrollPhysics] and viewport
 /// decorations used by descendants of [child].
 class ScrollConfiguration extends InheritedWidget {
-  /// Creates a widget that controls how [Scrollable] widgets behave in a subtree.
+  /// Creates a widget that controls how [ExtendedScrollable] widgets behave in a subtree.
   ///
   /// The [behavior] and [child] arguments must not be null.
   const ScrollConfiguration({
@@ -389,16 +389,16 @@ class ScrollConfiguration extends InheritedWidget {
     required super.child,
   });
 
-  /// How [Scrollable] widgets that are descendants of [child] should behave.
-  final ScrollBehavior behavior;
+  /// How [ExtendedScrollable] widgets that are descendants of [child] should behave.
+  final ExtendedScrollBehavior behavior;
 
-  /// The [ScrollBehavior] for [Scrollable] widgets in the given [BuildContext].
+  /// The [ExtendedScrollBehavior] for [ExtendedScrollable] widgets in the given [BuildContext].
   ///
   /// If no [ScrollConfiguration] widget is in scope of the given `context`,
-  /// a default [ScrollBehavior] instance is returned.
-  static ScrollBehavior of(BuildContext context) {
+  /// a default [ExtendedScrollBehavior] instance is returned.
+  static ExtendedScrollBehavior of(BuildContext context) {
     final ScrollConfiguration? configuration = context.dependOnInheritedWidgetOfExactType<ScrollConfiguration>();
-    return configuration?.behavior ?? const ScrollBehavior();
+    return configuration?.behavior ?? const ExtendedScrollBehavior();
   }
 
   @override
@@ -409,6 +409,6 @@ class ScrollConfiguration extends InheritedWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<ScrollBehavior>('behavior', behavior));
+    properties.add(DiagnosticsProperty<ExtendedScrollBehavior>('behavior', behavior));
   }
 }

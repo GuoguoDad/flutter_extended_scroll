@@ -30,11 +30,11 @@ import 'extended_scroll_position.dart';
 ///    within a [Scrollable] but is agnostic as to how that position is
 ///    changed.
 ///  * [ScrollView] and its subclasses such as [ListView], which use
-///    [ScrollPositionWithSingleContext] to manage their scroll position.
+///    [ExtendedScrollPositionWithSingleContext] to manage their scroll position.
 ///  * [ScrollController], which can manipulate one or more [ScrollPosition]s,
-///    and which uses [ScrollPositionWithSingleContext] as its default class for
+///    and which uses [ExtendedScrollPositionWithSingleContext] as its default class for
 ///    scroll positions.
-class ScrollPositionWithSingleContext extends ScrollPosition implements ScrollActivityDelegate {
+class ExtendedScrollPositionWithSingleContext extends ScrollPosition implements ScrollActivityDelegate {
   /// Create a [ScrollPosition] object that manages its behavior using
   /// [ScrollActivity] objects.
   ///
@@ -46,7 +46,7 @@ class ScrollPositionWithSingleContext extends ScrollPosition implements ScrollAc
   /// If [keepScrollOffset] is true (the default), the current scroll offset is
   /// saved with [PageStorage] and restored it if this scroll position's scrollable
   /// is recreated.
-  ScrollPositionWithSingleContext({
+  ExtendedScrollPositionWithSingleContext({
     required super.physics,
     required super.context,
     double? initialPixels = 0.0,
@@ -81,7 +81,7 @@ class ScrollPositionWithSingleContext extends ScrollPosition implements ScrollAc
   @override
   void absorb(ScrollPosition other) {
     super.absorb(other);
-    if (other is! ScrollPositionWithSingleContext) {
+    if (other is! ExtendedScrollPositionWithSingleContext) {
       goIdle();
       return;
     }
