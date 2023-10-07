@@ -1,5 +1,4 @@
 import 'package:example/extension/extensions.dart';
-import 'package:example/style/common_style.dart';
 import 'package:example/util/screen_util.dart';
 import 'package:example/widget/appraise_Info.dart';
 import 'package:example/widget/detail_card.dart';
@@ -10,8 +9,6 @@ import 'package:example/widget/tab_header.dart';
 import 'package:flutter/material.dart';
 import 'package:extended_scroll/extended_scroll.dart';
 import 'package:flutter/rendering.dart';
-
-import 'component/asset_image.dart';
 
 void main() {
   runApp(const MyApp());
