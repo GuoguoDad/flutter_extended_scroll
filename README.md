@@ -7,7 +7,7 @@
 Add the package to your pubspec.yaml:
 
  ```yaml
- extended_scroll: ^3.1.0
+ extended_scroll: ^3.2.0
  ```
 ## example
 详细见example
