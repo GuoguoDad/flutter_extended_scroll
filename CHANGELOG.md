@@ -6,3 +6,6 @@
 
 ## 3.1.0
  adapting to flutter 3.13.6
+ 
+## 3.2.1
+update meta

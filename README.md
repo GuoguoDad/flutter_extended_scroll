@@ -7,7 +7,7 @@
 Add the package to your pubspec.yaml:
 
  ```yaml
- extended_scroll: ^3.2.0
+ extended_scroll: ^3.2.1
  ```
 ## example
 详细见example
@@ -15,7 +15,7 @@ Add the package to your pubspec.yaml:
 In your dart file, import the library:
 
  ```Dart
-import 'package:extended_scroll/extended_scroll.dart';
+import 'package:flutter_extended_scroll/flutter_extended_scroll.dart';
  ``` 
 
 

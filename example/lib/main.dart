@@ -7,7 +7,7 @@ import 'package:example/widget/store_goods.dart';
 import 'package:example/widget/store_goods_header.dart';
 import 'package:example/widget/tab_header.dart';
 import 'package:flutter/material.dart';
-import 'package:extended_scroll/extended_scroll.dart';
+import 'package:flutter_extended_scroll/flutter_extended_scroll.dart';
 import 'package:flutter/rendering.dart';
 
 void main() {
