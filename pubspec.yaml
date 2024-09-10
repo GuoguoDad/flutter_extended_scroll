@@ -1,6 +1,6 @@
 name: flutter_extended_scroll
 description: make method ensureVisible support offsetTop
-version: 3.2.1
+version: 3.2.2
 homepage: https://github.com/GuoguoDad/flutter_extended_scroll/blob/main/README.md
 repository: https://github.com/GuoguoDad/flutter_extended_scroll.git
 

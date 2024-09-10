@@ -8,4 +8,7 @@
  adapting to flutter 3.13.6
  
 ## 3.2.1
-update meta
+support flutter 3.22.0
+
+## 3.2.2
+support flutter 3.24.2

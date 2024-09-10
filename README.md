@@ -1,4 +1,4 @@
-## extended_scroll package for flutter.
+## flutter_extended_scroll package for flutter.
 
      make method ensureVisible support offsetTop
 
@@ -7,7 +7,7 @@
 Add the package to your pubspec.yaml:
 
  ```yaml
- extended_scroll: ^3.2.1
+ flutter_extended_scroll: ^3.2.2
  ```
 ## example
 详细见example
